@@ -27,7 +27,6 @@ class QuantConv2d(nn.Conv2d):
 		super(QuantConv2d, self).__init__(in_channels, out_channels, kernel_size, stride, padding)
 		self.quant_bit = quant_bit
 		self.lower_bound = lower_bound
-		
 		self.p_relu = nn.PReLU()
 
 	def uniform_quantize(self, inputs: Tensor) -> tuple[Tensor, Tensor]:
@@ -53,7 +52,9 @@ class QuantConv2d(nn.Conv2d):
 		output = int_tensor * quant_step + min_
 		return output, int_tensor.to(torch.int)
 
-	def forward(self, inputs: Tensor, return_5d: bool = False) -> tuple[Tensor, Tensor | None]:
+	def forward(
+			self, inputs: Tensor, return_5d: bool = False
+	) -> tuple[Tensor, Tensor | None, Tensor | None, Tensor | None]:
 		"""
 		Doing convolution.
 		:param inputs: tensor of size 5: (B, N, C, H, W).
@@ -66,7 +67,7 @@ class QuantConv2d(nn.Conv2d):
 		# if quant_bit is set to 32, no more quantization will be operated
 		if self.quant_bit == 32:
 			output = self.p_relu(super().forward(inputs))
-			return output, None
+			return output, None, None, None
 		
 		# uniformly quantize the weight and bias of this layer
 		weight, _ = self.uniform_quantize(self.weight)
@@ -81,7 +82,8 @@ class QuantConv2d(nn.Conv2d):
 		
 		# uniformly quantize the output tensor
 		output, int_tensor = self.uniform_quantize(output)
-		return output, int_tensor
+		max_, min_ = torch.max(output), torch.min(output)
+		return output, int_tensor, max_, min_
 
 
 if __name__ == '__main__':

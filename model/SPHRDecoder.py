@@ -117,7 +117,7 @@ class DetailRestorer(nn.Module):
 		res_1 = self.dram_down_1(output)  # B C_f H W
 		output = self.downsample_1(res_1)  # B, 2C_f, H/2, W/2
 		res_2 = self.dram_down_2(output)  # B, 2C_f, H/2, W/2
-		output = self.downsample_2(output)  # B, 4C_f, H/4, W/4
+		output = self.downsample_2(res_2)  # B, 4C_f, H/4, W/4
 		
 		output = self.dram_mid(output)  # B, 4C_f, H/4, W/4
 		

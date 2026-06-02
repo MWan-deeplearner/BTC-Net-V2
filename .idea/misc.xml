@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Black">
-    <option name="sdkName" value="Python 3.6" />
-  </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.6" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Remote Python 3.12.12 (sftp://biiteam@10.246.4.69:22/home/biiteam/下载/ENTER/envs/py312/bin/python) (9)" project-jdk-type="Python SDK" />
 </project>

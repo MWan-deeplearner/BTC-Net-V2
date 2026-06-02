@@ -33,13 +33,18 @@ class BTCNetV2(nn.Module):
 			scale=scale, gamma=gamma
 		)
 	
-	def forward(self, inputs: Tensor) -> Tensor:
+	def forward(
+			self, inputs: Tensor, return_encoded: bool = False
+	) -> Tensor | tuple[Tensor, tuple]:
 		"""
 		Doing compression and reconstruction process.
 		:param inputs: the original HSI, whose shape is (B, C, H, W).
 		:return: the reconstructed HSI, whose shape is (B, C, H, W).
 		"""
-		output = self.decoder(self.encoder(x)[0])
+		encoded = self.encoder(inputs)
+		output = self.decoder(encoded[0])
+		if return_encoded:
+			return output, encoded
 		return output
 
 
