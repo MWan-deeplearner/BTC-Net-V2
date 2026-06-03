@@ -17,7 +17,7 @@
 ## Updates
 * **[2026/02/05]** Release basic information about BTC-Net V2.
 * **[2026/06/02]** Release model code, pretrained checkpoints (8-bit & 32-bit), and evaluation script.
-* **[Coming Soon]** Training script and full reproduction pipeline.
+* **[2026/06/03]** Release training script with full reproduction pipeline, including rate-distortion optimization, mixed-precision support, and progress tracking.
 
 ## Abstract
 *In recent years, lossy compression of hyperspectral images (HSIs) for spaceborne applications has garnered significant attention. The limited storage capacity and constrained transmission bandwidth of spaceborne equipment make it challenging to simultaneously balance the compression rate of transmitted data and the quality of locally reconstructed images. To address this challenge, we propose BTC-Net V2—an advanced iteration of BTC-Net—that substantially enhances the performance of its predecessor. Specifically, in the encoder stage, we adopt a large-kernel convolution to replace the three-layer convolutional network used in the previous version, enabling a more lightweight encoder design that aligns with the resource constraints of spaceborne HSI compression. Moreover, in the decoder stage, we replace the "feature enhancement followed by upsampling" paradigm of the previous version with a spatial-priority hierarchical architecture that prioritizes spatial dimension upsampling. This design ensures the subsequent feature enhancement backbone operates on a larger spatial scale—directly mitigating the loss of spatial correlations in BTC-Net and ultimately yielding higher reconstruction quality. Extensive experimental results demonstrate that our proposed BTC-Net V2 outperforms BTC-Net by 3.35 dB in PSNR—achieving 40.78 dB versus BTC-Net's 37.43 dB—while operating at an even lower bit rate (0.054 bpppb compared to BTC-Net's 0.060 bpppb). Our code is available at https://github.com/MWan-deeplearner/BTC-Net-V2.*
@@ -50,8 +50,8 @@ Each DRAM block consists of two sub-modules applied in sequence:
 ```
 .
 ├── README.md
-├── test.py                         # Evaluation script (available now)
-├── train.py                        # Training script (coming soon)
+├── test.py                         # Evaluation script with entropy coding
+├── train.py                        # Training script with rate-distortion optimization
 ├── model/
 │   ├── __init__.py
 │   ├── BTCNetV2.py                 # Main model (encoder + SPHR decoder)
@@ -62,12 +62,14 @@ Each DRAM block consists of two sub-modules applied in sequence:
 │   ├── __init__.py
 │   ├── dataset.py                  # HSI dataset loader (.mat files)
 │   ├── huffman_coder.py            # Huffman entropy coding pipeline
-│   └── metrics.py                  # PSNR, SAM, RMSE evaluation metrics
+│   ├── metrics.py                  # PSNR, SAM, RMSE evaluation metrics
+│   └── bar.py                      # Training progress display utilities
 ├── checkpoint/
 │   ├── BTCNetV2_8bit.pth           # 8-bit quantized pretrained weights (~48 MB)
 │   └── BTCNetV2_32bit.pth          # 32-bit floating-point pretrained weights (~48 MB)
 └── data/
     └── AVIRIS/
+        ├── train/                  # Training data (.mat files)
         └── test/                   # Sample test data (.mat files)
 ```
 
@@ -89,8 +91,6 @@ conda activate btcnetv2
 # Install dependencies
 pip install torch>=2.1 einops scipy numpy Pillow
 ```
-
-> **Note**: A `requirements.txt` with pinned versions will be provided alongside the training script release.
 
 ## Datasets
 ### 1. Benchmark Descriptions
@@ -180,13 +180,42 @@ bpp, psnr, sam, rmse:
 - **RMSE** (Root Mean Square Error): Per-band error — lower is better
 
 ## Training
-The training script (`train.py`) and full reproduction pipeline are under preparation and will be released in a future update.
 
-The training pipeline will include:
-- Rate-distortion optimization with Lagrangian multiplier
-- Support for all three benchmark datasets (AVIRIS, WHU-Hi, Hyperion)
-- Mixed-precision training and configurable quantization bit-width
-- Logging and checkpoint management
+Use `train.py` to train BTC-Net V2 from scratch. The script implements rate-distortion optimization with L1 loss, supports mixed-precision training, and logs per-epoch metrics.
+
+### Quick Start
+```bash
+python train.py
+```
+
+### Configuration
+The key hyperparameters in `train.py`:
+
+| Parameter | Default | Description |
+| :--- | :--- | :--- |
+| `ORIGINAL_CHANNELS` | 172 | Input spectral bands |
+| `COMPRESSED_CHANNELS` | 27 | Compressed latent channels |
+| `QUANT_BIT` | 6 | Quantization bit-width for training |
+| `SCALE` | 4 | Spatial downsampling factor |
+| `NUM_FEATURES` | 32 | Base feature channels in decoder |
+| `GAMMA` | 4 | SEFFM spectral expansion factor |
+| `BATCH_SIZE` | 12 | Training batch size |
+| `MAX_EPOCHS` | 5000 | Maximum training epochs |
+| `CROP_HEIGHT` | 128 | Random crop height for training patches |
+| `WIDTH` | 4 | Patch width for sliding window |
+| `MARGINAL` | 60 | Number of overlapping patches |
+| `DEVICE` | `cuda:0` | Training device |
+| `TRAIN_DATA_DIR` | `data/AVIRIS/train` | Training data directory |
+| `TEST_DATA_DIR` | `data/AVIRIS/test` | Validation data directory |
+| `MODEL_SAVE_PATH` | `checkpoint/BTCNetV2_8bit.pth` | Checkpoint save path |
+
+### Training Pipeline
+- **Loss function**: L1 (mean absolute error) for rate-distortion optimization
+- **Optimizer**: Adam with learning rate 1e-5
+- **Scheduler**: ExponentialLR with gamma=0.999 per epoch
+- **Validation**: Periodic evaluation every epoch (configurable via `VALID_PERIOD`)
+- **Checkpointing**: Automatically saves best model based on peak PSNR
+- **Progress display**: Real-time training metrics (loss, SAM, RMSE, PSNR) in a compact table format
 
 ## License
 This work is licensed under the MIT License.
