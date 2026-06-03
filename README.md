@@ -1,3 +1,5 @@
+[English](README.md) | [中文](README.zh-CN.md)
+
 # BTC-Net V2: Spatial-Priority Hierarchical Reconstruction for Hyperspectral Image Compression
 [![IEEE Xplore](https://img.shields.io/badge/IEEE-Xplore-00629B?logo=ieee&logoColor=white)](https://ieeexplore.ieee.org/abstract/document/11371342)
 [![Python](https://img.shields.io/badge/Python-3.12-blue?logo=Python&logoColor=white)](https://www.python.org/downloads/release/python-3120/)
