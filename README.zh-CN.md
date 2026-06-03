@@ -7,9 +7,9 @@
 ![Visitors](https://visitor-badge.laobi.icu/badge?page_id=MWan-deeplearner.BTC-Net-V2&left_text=Total%20Views&color=00629B)
 
 ## 作者
-* **周熙川**<sup>1</sup>（Xichuan Zhou）
-* **万明阳**<sup>1,4</sup>（Mingyang Wan，主要贡献者与维护者）
-* **余航**<sup>1</sup>（Hang Yu）、**陈涛**<sup>1</sup>（Tao Chen）、**何如龙**<sup>2</sup>（Rulong He）、**沈祥飞**<sup>2</sup>（Xiangfei Shen）、**陈立辉**<sup>1</sup>（Lihui Chen）、**刘海俊**<sup>1,3</sup>（Haijun Liu）
+* **周喜川**<sup>1</sup>（Xichuan Zhou）
+* **万明扬**<sup>1,4</sup>（Mingyang Wan，主要贡献者与维护者）
+* **于杭**<sup>1</sup>（Hang Yu）、**陈涛**<sup>1</sup>（Tao Chen）、**何如龙**<sup>2</sup>（Rulong He）、**沈象飞**<sup>2</sup>（Xiangfei Shen）、**陈黎辉**<sup>1</sup>（Lihui Chen）、**刘海军**<sup>1,3</sup>（Haijun Liu）
 
 <sup>1</sup> 重庆大学，中国  
 <sup>2</sup> 海军工程大学，中国  
