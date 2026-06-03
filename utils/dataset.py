@@ -5,7 +5,6 @@ from typing import Optional, Tuple, Union
 
 import numpy as np
 import torch
-from PIL import Image
 from scipy.io import loadmat
 from torch.utils import data
 

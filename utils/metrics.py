@@ -1,7 +1,6 @@
 import numpy as np
-from scipy.io import savemat, loadmat
+from scipy.io import loadmat
 import torch
-import math
 
 def plog(msg, prefix, SOURCE,TARGET, testnum, CR, epoch):
     print(msg)

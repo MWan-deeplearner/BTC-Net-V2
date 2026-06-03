@@ -160,7 +160,6 @@ class HuffmanCodex:
             return decoded[0], remaining
         return decoded, remaining
 
-
 class EntropyCodex:
     """Entropy codec (without hyperprior, only Huffman coding based on frequency table)"""
 
