@@ -2,6 +2,7 @@
 
 # BTC-Net V2：面向高光谱图像压缩的空间优先级分层重建
 [![IEEE Xplore](https://img.shields.io/badge/IEEE-Xplore-00629B?logo=ieee&logoColor=white)](https://ieeexplore.ieee.org/abstract/document/11371342)
+[![Hugging Face Datasets](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Datasets-blue)](https://huggingface.co/datasets/the-bad-one/BTC-Net-V2)
 [![Python](https://img.shields.io/badge/Python-3.12-blue?logo=Python&logoColor=white)](https://www.python.org/downloads/release/python-3120/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.1-red?logo=PyTorch&logoColor=white)](https://pytorch.org/)
 ![Visitors](https://visitor-badge.laobi.icu/badge?page_id=MWan-deeplearner.BTC-Net-V2&left_text=Total%20Views&color=00629B)
