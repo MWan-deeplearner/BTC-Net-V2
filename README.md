@@ -15,7 +15,7 @@
 <sup>1</sup> Chongqing University, China  
 <sup>2</sup> Naval University of Engineering, China  
 <sup>3</sup> Corresponding Author: [haijun_liu@cqu.edu.cn]  
-<sup>4</sup> Primary Contact: [13477304346@163.com]
+<sup>4</sup> Primary Contact: [minngyang_wan@163.com]
 
 ## Updates
 * **[2026/02/05]** Release basic information about BTC-Net V2.
